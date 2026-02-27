@@ -213,7 +213,29 @@
             color: #777;
             font-size: 0.9em;
             border-top: 1px solid #eee;
+            position: relative;
+            overflow: hidden;
         }
+
+        /* 统计信息样式 */
+        .stats {
+            margin-top: 15px;
+            font-size: 0.9em;
+            color: #666;
+            text-align: center; /* 这行代码让文字内容居中 */
+            display: flex;
+            justify-content: center; /* 这行代码让弹性盒子内的元素居中 */
+            gap: 15px; /* 用 gap 代替 margin 来控制两个统计项之间的间距，效果更干净 */
+        }
+
+        .stats span {
+            padding: 5px 10px;
+            background: #f0f0f0;
+            border-radius: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            /* 移除了 margin，改用父容器的 gap */
+        }
+
 
         /* --- 侧边栏音乐控制按钮样式 (新增) --- */
         /* 侧边栏容器 */
@@ -412,12 +434,16 @@
         <footer>
             <p>三人行装饰设计有限公司 版权所有 © 2026</p>
             <p>地址：河北省石家庄市赞皇县</p>
+            <!-- 统计信息 -->
+            <div class="stats">
+                <span>总访问量: <span id="busuanzi_value_site_pv"></span> 次</span>
+                <span>访客人数: <span id="busuanzi_value_site_uv"></span> 人</span>
+            </div>
         </footer>
     </div>
 
     <!-- 背景音乐播放器 (隐藏) -->
     <audio id="bg-music" loop>
-        <!-- 修改点：更新了音乐链接和音频类型 -->
         <source src="https://hw.a.yximgs.com/bs2/ost/MTM4NzUyNDYzNDYwXzQwNzU5NTExODc.m4a" type="audio/mp4">
         您的浏览器不支持音频元素。
     </audio>
@@ -440,5 +466,5 @@
         }
     </script>
 
-</body>
-</html>
+    <!-- 不蒜子统计代码 -->
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
