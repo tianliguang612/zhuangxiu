@@ -214,9 +214,127 @@
             font-size: 0.9em;
             border-top: 1px solid #eee;
         }
+
+        /* --- 侧边栏音乐控制按钮样式 (新增) --- */
+        /* 侧边栏容器 */
+        .sidebar {
+            position: fixed;
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* 音乐按钮 */
+        .music-btn {
+            position: relative;
+            width: 100px;
+            height: 50px;
+            background: linear-gradient(to bottom, #ff6b6b, #ee5a52);
+            border-radius: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+            transition: all 0.3s ease;
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            padding: 0 10px;
+            box-sizing: border-box;
+        }
+
+        .music-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
+            background: linear-gradient(to bottom, #ee5a52, #ff6b6b);
+        }
+
+        /* 按钮上的文字 */
+        .btn-text {
+            font-size: 12px;
+            margin: 0;
+            color: #fff; /* 文字颜色改为纯白色 */
+            text-shadow: none; /* 去掉文字阴影 */
+            font-weight: bold;
+        }
+
+        /* 按钮上的图标 */
+        .btn-icon {
+            font-size: 18px;
+            margin-bottom: 5px;
+            color: #fff; /* 图标颜色改为纯白色 */
+        }
+
+        /* 工具箱按钮 */
+        .tool-btn-side {
+            position: relative;
+            width: 100px;
+            height: 50px;
+            background: linear-gradient(to bottom, #1a73e8, #4285f4);
+            border-radius: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(26, 115, 232, 0.4);
+            transition: all 0.3s ease;
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            padding: 0 10px;
+            box-sizing: border-box;
+        }
+
+        .tool-btn-side:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(26, 115, 232, 0.6);
+            background: linear-gradient(to bottom, #4285f4, #1a73e8);
+        }
+
+        /* 工具箱按钮上的文字 */
+        .tool-btn-text {
+            font-size: 12px;
+            margin: 0;
+            color: #fff; /* 文字颜色改为纯白色 */
+            text-shadow: none; /* 去掉文字阴影 */
+            font-weight: bold;
+        }
+
+        /* 工具箱按钮上的图标 */
+        .tool-btn-icon {
+            font-size: 18px;
+            margin-bottom: 5px;
+            color: #fff; /* 图标颜色改为纯白色 */
+        }
+
     </style>
 </head>
 <body>
+
+    <!-- 侧边栏音乐控制按钮 -->
+    <div class="sidebar">
+        <!-- 音乐按钮 -->
+        <div class="music-btn" onclick="toggleMusic()" title="点击开启/关闭背景音乐">
+            <div class="btn-icon">🎵</div>
+            <div class="btn-text">点我开音乐</div>
+        </div>
+        <!-- 工具箱按钮 -->
+        <a href="https://tianliguang612.github.io/weichang/" target="_blank" class="tool-btn-side" title="装修人工具箱">
+            <div class="tool-btn-icon">🛠️</div>
+            <div class="tool-btn-text">点我进工具箱</div>
+        </a>
+    </div>
+
     <div class="container">
         <header>
             <h1>三人行装饰</h1>
@@ -291,20 +409,36 @@
         </section>
         <!-- 施工案例结束 -->
 
-        <!-- 工具箱按钮 -->
-        <section class="tool-box">
-            <a href="https://tianliguang612.github.io/weichang/" target="_blank" class="tool-btn">
-                🛠️ 装修人工具箱 | 影视 · 音乐 · 娱乐
-            </a>
-            <p style="color: #888; font-size: 0.9em; margin-top: 15px;">
-                （点击进入：包含影视、音乐、随机小姐姐等趣味功能）
-            </p>
-        </section>
-
         <footer>
             <p>三人行装饰设计有限公司 版权所有 © 2026</p>
             <p>地址：河北省石家庄市赞皇县</p>
         </footer>
     </div>
+
+    <!-- 背景音乐播放器 (隐藏) -->
+    <audio id="bg-music" loop>
+        <!-- 修改点：更新了音乐链接和音频类型 -->
+        <source src="https://hw.a.yximgs.com/bs2/ost/MTM4NzUyNDYzNDYwXzQwNzU5NTExODc.m4a" type="audio/mp4">
+        您的浏览器不支持音频元素。
+    </audio>
+
+    <script>
+        // 获取音频元素
+        var audio = document.getElementById("bg-music");
+
+        // 切换音乐播放/暂停的函数
+        function toggleMusic() {
+            if (audio.paused) {
+                audio.play();
+                // 可以在这里添加按钮样式变化，例如变色
+                document.querySelector('.music-btn').style.background = "linear-gradient(to bottom, #4285f4, #1a73e8)";
+            } else {
+                audio.pause();
+                // 恢复按钮样式
+                document.querySelector('.music-btn').style.background = "linear-gradient(to bottom, #ff6b6b, #ee5a52)";
+            }
+        }
+    </script>
+
 </body>
 </html>
