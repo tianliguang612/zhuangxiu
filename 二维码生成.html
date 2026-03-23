@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>山河 API 二维码生成器 (固定尺寸)</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f8f9fa;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #007bff;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        #qrcode-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+        #qrcode-image {
+            max-width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        #download-btn {
+            display: none;
+            margin-top: 15px;
+            background: #28a745;
+        }
+        #download-btn:hover {
+            background: #218838;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+            text-align: center;
+        }
+        .hint {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>二维码生成器</h1>
+  
+    <div class="form-group">
+        <label for="text">二维码内容（必填）</label>
+        <input type="text" id="text" placeholder="请输入要生成二维码的内容，如网址、文本、联系方式等">
+    </div>
+
+    <button onclick="generateQRCode()">生成二维码</button>
+
+    <div id="qrcode-container">
+        <div id="qrcode-image"></div>
+        <div id="error-message" class="error"></div>
+        <button id="download-btn" onclick="downloadQRCode()">下载二维码 (PNG)</button>
+    </div>
+
+    <script>
+        // 默认的二维码尺寸
+        const DEFAULT_SIZE = 500;
+
+        function generateQRCode() {
+            const text = document.getElementById('text').value.trim();
+            const errorDiv = document.getElementById('error-message');
+            const imgContainer = document.getElementById('qrcode-image');
+            const downloadBtn = document.getElementById('download-btn');
+
+            // 清空之前的错误和图片
+            errorDiv.textContent = '';
+            imgContainer.innerHTML = '';
+            downloadBtn.style.display = 'none';
+
+            // 验证参数
+            if (!text) {
+                errorDiv.textContent = '请输入二维码内容！';
+                return;
+            }
+
+            // 构建接口 URL
+            const apiUrl = `https://shanhe.kim/api/za/ewm.php?text=${encodeURIComponent(text)}&size=${DEFAULT_SIZE}`;
+
+            // 创建图片元素
+            const img = document.createElement('img');
+            img.id = 'qrcode-img';
+            img.src = apiUrl;
+            img.alt = '生成的二维码';
+            img.style.maxWidth = '100%';
+            img.style.borderRadius = '8px';
+
+            // 图片加载成功
+            img.onload = function() {
+                imgContainer.appendChild(img);
+                downloadBtn.style.display = 'block';
+                downloadBtn.setAttribute('data-url', apiUrl);
+            };
+
+            // 图片加载失败
+            img.onerror = function() {
+                errorDiv.textContent = '生成二维码失败，请检查网络连接或内容格式。';
+            };
+        }
+
+        function downloadQRCode() {
+            const img = document.getElementById('qrcode-img');
+            if (!img || !img.src) {
+                alert('请先生成二维码');
+                return;
+            }
+            const url = img.src;
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'qrcode.png';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // 可选：为输入框添加回车键支持
+        document.getElementById('text').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                generateQRCode();
+            }
+        });
+    </script>
+</body>
+</html>
