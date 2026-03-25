@@ -342,7 +342,7 @@
             <div class="input-section">
                 <div class="input-group">
                     <label for="url"><i class="fas fa-link"></i> 蓝奏云分享链接</label>
-                    <input type="text" id="url" placeholder="请输入蓝奏云分享链接，例如：https://www.lanzou.com/xxxxx" value="">
+                    <input type="text" id="url" placeholder="请输入蓝奏云分享链接" value="">
                 </div>
                 
                 <div class="input-group">
@@ -386,7 +386,7 @@
             const statusElement = document.getElementById('status');
             
             // 示例链接
-            document.getElementById('url').value = 'https://wwi.lanzoup.com/i8pMf1p1jv0h';
+            document.getElementById('url').value = '';
             
             parseBtn.addEventListener('click', async function() {
                 const url = document.getElementById('url').value.trim();
