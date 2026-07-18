@@ -51,6 +51,59 @@
         }
         
         .input-section {
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>蓝奏云直链解析工具</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .input-section {
             margin-bottom: 40px;
         }
         
@@ -388,100 +441,94 @@
             // 示例链接
             document.getElementById('url').value = '';
             
-            parseBtn.addEventListener('click', async function() {
-                const url = document.getElementById('url').value.trim();
-                const pwd = document.getElementById('pwd').value.trim();
-                
-                if (!url) {
-                    alert('请输入蓝奏云链接！');
-                    return;
-                }
-                
-                // 显示加载动画，隐藏结果区域
-                loading.style.display = 'block';
-                resultSection.style.display = 'none';
-                parseBtn.disabled = true;
-                
-                try {
-                    // 调用解析API
-                    const apiUrl = 'https://api.pearktrue.cn/api/lanzou/api.php';
-                    const params = new URLSearchParams({
-                        url: url,
-                        pwd: pwd || ''
-                    });
-                    
-                    const response = await fetch(`${apiUrl}?${params}`);
-                    const data = await response.json();
-                    
-                    // 隐藏加载动画
-                    loading.style.display = 'none';
-                    parseBtn.disabled = false;
-                    
-                    // 显示结果区域
-                    resultSection.style.display = 'block';
-                    
-                    if (data.code === 200) {
-                        // 解析成功
-                        statusElement.textContent = '成功';
-                        statusElement.className = 'status success';
-                        
-                        const fileData = data.data;
-                        resultContent.innerHTML = `
-                            <div class="result-item">
-                                <div class="result-label"><i class="fas fa-file"></i> 文件名</div>
-                                <div class="result-value">${fileData.filename || '未知'}</div>
-                            </div>
-                            <div class="result-item">
-                                <div class="result-label"><i class="fas fa-hdd"></i> 文件大小</div>
-                                <div class="result-value">${fileData.filesize || '未知'}</div>
-                            </div>
-                            <div class="result-item">
-                                <div class="result-label"><i class="fas fa-clock"></i> 上传时间</div>
-                                <div class="result-value">${fileData.time || '未知'}</div>
-                            </div>
-                            <div class="result-item">
-                                <div class="result-label"><i class="fas fa-info-circle"></i> 文件描述</div>
-                                <div class="result-value">${fileData.desc || '无描述'}</div>
-                            </div>
-                            <div class="result-item">
-                                <div class="result-label"><i class="fas fa-download"></i> 下载链接</div>
-                                <div class="result-value">
-                                    <a href="${fileData.downloadurl}" class="download-btn" target="_blank">
-                                        <i class="fas fa-download"></i> 直接下载
-                                    </a>
-                                    <div style="margin-top: 10px; font-size: 0.9rem; color: #6b7280; word-break: break-all;">
-                                        ${fileData.downloadurl || '无下载链接'}
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                    } else {
-                        // 解析失败
-                        statusElement.textContent = '失败';
-                        statusElement.className = 'status error';
-                        
-                        resultContent.innerHTML = `
-                            <div class="error-message">
-                                <i class="fas fa-exclamation-triangle"></i> ${data.msg || '解析失败，请检查链接和密码是否正确'}
-                            </div>
-                        `;
-                    }
-                } catch (error) {
-                    // 网络错误或其他异常
-                    loading.style.display = 'none';
-                    parseBtn.disabled = false;
-                    
-                    statusElement.textContent = '错误';
-                    statusElement.className = 'status error';
-                    resultSection.style.display = 'block';
-                    
-                    resultContent.innerHTML = `
-                        <div class="error-message">
-                            <i class="fas fa-exclamation-circle"></i> 网络请求失败：${error.message}
+parseBtn.addEventListener('click', async function() {
+    const url = document.getElementById('url').value.trim();
+    const pwd = document.getElementById('pwd').value.trim();
+
+    if (!url) {
+        alert('请输入蓝奏云链接！');
+        return;
+    }
+
+    loading.style.display = 'block';
+    resultSection.style.display = 'none';
+    parseBtn.disabled = true;
+
+    try {
+        const apiUrl = 'https://yunzhiapi.cn/API/lzypjx.php';
+        const params = new URLSearchParams({
+            url: url,
+            pwd: pwd || '',
+            token: 'cZSYhqct8Ttg'
+        });
+
+        const response = await fetch(`${apiUrl}?${params}`);
+        const data = await response.json();
+
+        loading.style.display = 'none';
+        parseBtn.disabled = false;
+        resultSection.style.display = 'block';
+
+        if (data.code === 200) {
+            statusElement.textContent = '成功';
+            statusElement.className = 'status success';
+
+            const fileData = data.data;
+            resultContent.innerHTML = `
+                <div class="result-item">
+                    <div class="result-label"><i class="fas fa-file"></i> 文件名</div>
+                    <div class="result-value">${fileData.filename || '未知'}</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label"><i class="fas fa-hdd"></i> 文件大小</div>
+                    <div class="result-value">${fileData.filesize || '未知'}</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label"><i class="fas fa-clock"></i> 上传时间</div>
+                    <div class="result-value">${fileData.time || '未知'}</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label"><i class="fas fa-info-circle"></i> 文件描述</div>
+                    <div class="result-value">${fileData.desc || '无描述'}</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label"><i class="fas fa-download"></i> 下载链接</div>
+                    <div class="result-value">
+                        <a href="${fileData.downloadurl}" class="download-btn" target="_blank">
+                            <i class="fas fa-download"></i> 直接下载
+                        </a>
+                        <div style="margin-top: 10px; font-size: 0.9rem; color: #6b7280; word-break: break-all;">
+                            ${fileData.downloadurl || '无下载链接'}
                         </div>
-                    `;
-                }
-            });
+                    </div>
+                </div>
+            `;
+        } else {
+            statusElement.textContent = '失败';
+            statusElement.className = 'status error';
+
+            resultContent.innerHTML = `
+                <div class="error-message">
+                    <i class="fas fa-exclamation-triangle"></i> ${data.msg || '解析失败，请检查链接和密码是否正确'}
+                </div>
+            `;
+        }
+    } catch (error) {
+        loading.style.display = 'none';
+        parseBtn.disabled = false;
+
+        statusElement.textContent = '错误';
+        statusElement.className = 'status error';
+        resultSection.style.display = 'block';
+
+        resultContent.innerHTML = `
+            <div class="error-message">
+                <i class="fas fa-exclamation-circle"></i> 网络请求失败：${error.message}
+            </div>
+        `;
+    }
+});
+
             
             // 允许按Enter键触发解析
             document.getElementById('pwd').addEventListener('keypress', function(e) {
